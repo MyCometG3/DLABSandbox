@@ -115,7 +115,7 @@ class DeviceController :ObservableObject {
             manager.videoStyle           = config.videoStyle
             manager.videoConnection      = config.videoConnection
             manager.audioConnection      = config.audioConnection
-            manager.fieldDetail          = config.fieldDetail
+            manager.fieldDetail          = config.fieldDetail ?? nil
             manager.cvPixelFormat        = config.cvPixelFormat
             manager.encodeVideoCodecType = config.encodeVideoCodecType
             manager.encodeProRes422      = config.encodeProRes422

@@ -16,7 +16,7 @@ struct ConfigSet {
     var videoStyle :VideoStyle = .HD_1920_1080_Full
     var videoConnection :DLABVideoConnection = .HDMI
     var audioConnection :DLABAudioConnection = .embedded
-    var fieldDetail :CFString = kCMFormatDescriptionFieldDetail_SpatialFirstLineEarly
+    var fieldDetail :CFString? = kCMFormatDescriptionFieldDetail_SpatialFirstLineEarly
     var cvPixelFormat :OSType = kCVPixelFormatType_422YpCbCr10
     var encodeVideoCodecType :CMVideoCodecType = kCMVideoCodecType_H264
     var offset :NSPoint = NSZeroPoint
@@ -47,7 +47,7 @@ struct ConfigSet {
             videoStyle = .HD_1280_720_Full
             videoConnection = .HDMI
             audioConnection = .analogRCA
-            fieldDetail = kCMFormatDescriptionFieldDetail_SpatialFirstLineEarly
+            fieldDetail = nil // Progressive, FieldCount == 1
             cvPixelFormat = kCVPixelFormatType_422YpCbCr8
             encodeVideoCodecType = kCMVideoCodecType_AppleProRes422LT
             encodeAudio = false
