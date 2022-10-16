@@ -118,6 +118,7 @@ class DeviceController :ObservableObject {
             manager.fieldDetail          = config.fieldDetail ?? nil
             manager.cvPixelFormat        = config.cvPixelFormat
             manager.encodeVideoCodecType = config.encodeVideoCodecType
+            manager.offset               = config.offset
             manager.encodeProRes422      = config.encodeProRes422
             manager.sampleTimescale      = config.sampleTimescale
             manager.encodeAudio          = config.encodeAudio
