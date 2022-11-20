@@ -22,11 +22,24 @@ enum Preset :String {
     case undefined = "Undefined"
 }
 
+enum Layout :String {
+    case layout0 = "0:Stereo"
+    case layout1 = "1:C"
+    case layout2 = "2:L R"
+    case layout3 = "3:L R C"
+    case layout6 = "6:5.1ch"
+    case layout8 = "8:7.1ch"
+    case undefined = "Undefined"
+}
+
 class DeviceController :ObservableObject {
     
     // Clean Aperture offset
     let applySDOffset :Bool = true
     let sdOffset :NSPoint = NSPoint(x: 4, y: 0)
+    
+    // HDMI AudioChannelLayout
+    var applyLayout :Bool = true
     
     // CaptureManager
     var manager :DLABCapture.CaptureManager? = nil
@@ -39,6 +52,9 @@ class DeviceController :ObservableObject {
     @Published var running :Bool = false
     @Published var recording : Bool = false
     @Published var presetLabel :Preset = .undefined
+    @Published var layoutSelectedIndex = 6
+    @Published var layoutLabel :Layout = .undefined
+    @Published var reverse34 : Bool = true
     
     // Preset selection
     func selectPreset(newPreset :Int) {
@@ -50,6 +66,20 @@ class DeviceController :ObservableObject {
         case 3: presetLabel = .preset3
         case 4: presetLabel = .preset4
         default: presetLabel = .undefined
+        }
+    }
+    
+    // Layout selection
+    func selectLayout(newLayout :Int) {
+        // Update layout
+        switch newLayout {
+        case 0: layoutLabel = .layout0
+        case 1: layoutLabel = .layout1
+        case 2: layoutLabel = .layout2
+        case 3: layoutLabel = .layout3
+        case 6: layoutLabel = .layout6
+        case 8: layoutLabel = .layout8
+        default: layoutLabel = .undefined
         }
     }
     
@@ -71,6 +101,7 @@ class DeviceController :ObservableObject {
             }
             
             self.selectPreset(newPreset: self.modeSelectedIndex)
+            self.selectLayout(newLayout: self.layoutSelectedIndex)
         }
     }
     
@@ -101,10 +132,12 @@ class DeviceController :ObservableObject {
         guard checkDevice() else { return }
         
         // Update configSet per selection
+        config = ConfigSet(preset: presetLabel)
         if applySDOffset {
-            config = ConfigSet(preset: presetLabel, adjustSD: sdOffset)
-        } else {
-            config = ConfigSet(preset: presetLabel)
+            config.apply(adjustSD: sdOffset)
+        }
+        if (config.videoConnection == .HDMI && config.audioConnection == .embedded) {
+            config.apply(layout: layoutLabel, swap: reverse34)
         }
         
         //
@@ -124,6 +157,8 @@ class DeviceController :ObservableObject {
             manager.encodeAudio          = config.encodeAudio
             manager.encodeAudioBitrate   = config.encodeAudioBitrate
             manager.audioChannels        = config.audioChannels
+            manager.hdmiAudioChannels    = config.hdmiAudioChannels
+            manager.reverseCh3Ch4        = config.reverse34
             
             #if true
             manager.videoPreview = vPreview // CaptureVideoPreview based

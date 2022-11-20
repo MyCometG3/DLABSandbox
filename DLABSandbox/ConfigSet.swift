@@ -26,6 +26,8 @@ struct ConfigSet {
     var encodeAudio :Bool = true
     var encodeAudioBitrate :UInt = 192*1024
     var audioChannels :UInt32 = 2
+    var hdmiAudioChannels :UInt32 = 0
+    var reverse34 :Bool = true
     
     init(preset newPreset :Preset) {
         switch newPreset {
@@ -91,11 +93,24 @@ struct ConfigSet {
         }
     }
     
-    init(preset newPreset :Preset, adjustSD newOffset :NSPoint) {
-        self = ConfigSet(preset: newPreset)
-        
+    mutating func apply(adjustSD newOffset :NSPoint) {
         if videoConnection == .composite || videoConnection == .sVideo {
             offset = newOffset
+        }
+    }
+    
+    mutating func apply(layout newLayout :Layout, swap newSwap :Bool) {
+        if videoConnection == .HDMI, audioConnection == .embedded {
+            (audioChannels,hdmiAudioChannels,reverse34) = {
+                switch newLayout {
+                case .layout1: return (8,1,newSwap)
+                case .layout2: return (8,2,newSwap)
+                case .layout3: return (8,3,newSwap)
+                case .layout6: return (8,6,newSwap)
+                case .layout8: return (8,8,newSwap)
+                default: return (2,0,false)
+                }
+            }()
         }
     }
 }

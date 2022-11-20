@@ -23,23 +23,42 @@ struct ContentView: View {
                 .environmentObject(controller)
             HStack {
                 VStack {
-                    Picker("", selection: $controller.modeSelectedIndex) {
-                        Text("0").tag(0)
-                        Text("1").tag(1)
-                        Text("2").tag(2)
-                        Text("3").tag(3)
-                        Text("4").tag(4)
+                    HStack {
+                        Picker("", selection: $controller.modeSelectedIndex) {
+                            Text("0").tag(0)
+                            Text("1").tag(1)
+                            Text("2").tag(2)
+                            Text("3").tag(3)
+                            Text("4").tag(4)
+                        }
+                        .onChange(of: controller.modeSelectedIndex, perform: { newValue in
+                            controller.selectPreset(newPreset: newValue)
+                        })
+                        .controlSize(.small)
+                        .pickerStyle(SegmentedPickerStyle())
+                        .disabled(controller.running)
+                        
+                        Picker("", selection: $controller.layoutSelectedIndex) {
+                            Text("N/A").tag(0)
+                            Text("C").tag(1)
+                            Text("L R").tag(2)
+                            Text("L R C").tag(3)
+                            Text("5.1ch").tag(6)
+                            Text("7.1ch").tag(8)
+                        }
+                        .onChange(of: controller.layoutSelectedIndex, perform: { newValue in
+                            controller.selectLayout(newLayout: newValue)
+                        })
+                        .controlSize(.small)
+                        .pickerStyle(SegmentedPickerStyle())
+                        .disabled(controller.running)
                     }
-                    .onChange(of: controller.modeSelectedIndex, perform: { newValue in
-                        controller.selectPreset(newPreset: newValue)
-                    })
-                    .frame(width: 200)
-                    .pickerStyle(SegmentedPickerStyle())
-                    .disabled(controller.running)
                     
                     HStack {
                         Text("preset:").font(.footnote)
                         Text(controller.presetLabel.rawValue).font(.footnote)
+                        Text("layout:").font(.footnote)
+                        Text(controller.layoutLabel.rawValue).font(.footnote)
                     }
                 }
                 
