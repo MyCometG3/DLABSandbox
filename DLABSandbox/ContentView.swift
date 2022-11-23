@@ -86,8 +86,8 @@ struct ContentView: View {
                         Text(controller.displayName).font(.footnote)
                     }
                 }
-                
             }
+            .frame(width:580)
         }
         .padding()
     }
