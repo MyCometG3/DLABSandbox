@@ -16,12 +16,11 @@ DLABSandbox runs on macOS Sandbox environment with TWO exception entitlements
 
 ### Development environment
 
-- macOS 12.6 Monterey
-- Xcode 14.1
-- Swift 5.7.1
+- macOS 15.0 Sequoia
+- Xcode 16.0
+- Swift 6.0
 
 ### License
 
 - The MIT License
-Copyright © 2022年 MyCometG3. All rights reserved.
-
+Copyright © 2022-2024年 MyCometG3. All rights reserved.
