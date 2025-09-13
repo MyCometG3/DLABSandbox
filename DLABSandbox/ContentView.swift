@@ -82,11 +82,11 @@ struct ContentView: View {
                         .toggleStyle(.button)
                         if #available(macOS 14.0, *) {
                             toggleRunning.onChange(of: controller.running) {
-                                controller.toggleRunning()
+                                Task { await controller.toggleRunning() }
                             }
                         } else {
                             toggleRunning.onChange(of: controller.running) { _ in
-                                controller.toggleRunning()
+                                Task { await controller.toggleRunning() }
                             }
                         }
                         
@@ -97,11 +97,11 @@ struct ContentView: View {
                         .disabled(controller.running == false)
                         if #available(macOS 14.0, *) {
                             toggleRecording.onChange(of: controller.recording) {
-                                controller.toggleRecording()
+                                Task { await controller.toggleRecording() }
                             }
                         } else {
                             toggleRecording.onChange(of: controller.recording) { _ in
-                                controller.toggleRecording()
+                                Task { await controller.toggleRecording() }
                             }
                         }
                     }
@@ -125,8 +125,10 @@ struct ParentView: NSViewRepresentable {
     func makeNSView(context: Context) -> DLABCapture.CaptureVideoPreview {
         let vPreview = CaptureVideoPreview()
         
-        controller.registerPreview(parentView: vPreview)
-        controller.updateViewState()
+        DispatchQueue.main.async {
+            controller.registerPreview(parentView: vPreview)
+            controller.updateViewState()
+        }
         
         return vPreview
     }

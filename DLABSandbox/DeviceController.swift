@@ -32,6 +32,7 @@ enum Layout :String {
     case undefined = "Undefined"
 }
 
+@MainActor
 class DeviceController :ObservableObject {
     
     // Clean Aperture offset
@@ -85,7 +86,7 @@ class DeviceController :ObservableObject {
     
     // Lazy View state adjustment using Binding
     func updateViewState() {
-        DispatchQueue.main.async {
+        Task { @MainActor in
             if let manager = self.manager {
                 self.running = manager.running
                 self.recording = manager.recording
@@ -174,23 +175,23 @@ class DeviceController :ObservableObject {
     }
     
     // Handle Capture session
-    func toggleRunning() {
+    func toggleRunning() async {
         guard checkDevice() else { return }
         
         if let manager = manager {
             if manager.running {
                 // stop capture session
                 if manager.recording {
-                    manager.recordToggle()
+                    await manager.recordToggleAsync()
                 }
-                manager.captureStop()
+                await manager.captureStopAsync()
                 
                 // shutdown capture manager
                 self.manager = nil
             } else {
                 // start capture session
                 applyConfig()
-                manager.captureStart()
+                await manager.captureStartAsync()
             }
         }
         
@@ -199,16 +200,16 @@ class DeviceController :ObservableObject {
     }
     
     // Handle Recording
-    func toggleRecording() {
+    func toggleRecording() async {
         guard checkDevice() else { return }
         
         if let manager = manager, running == true {
             if manager.recording {
                 // stop recording
-                manager.recordToggle()
+                await manager.recordToggleAsync()
             } else {
                 // start recording
-                manager.recordToggle()
+                await manager.recordToggleAsync()
             }
         }
         
