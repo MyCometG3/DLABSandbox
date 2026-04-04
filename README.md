@@ -14,12 +14,12 @@ DLABSandbox runs on macOS Sandbox environment with TWO exception entitlements
 - See: Blackmagic DeckLink SDK pdf Section 2.2.
 - Ref: "Entitlement Key Reference/App Sandbox Temporary Exception Entitlements" from Apple Developer Documentation Archive
 
-### Development environment
-- macOS 15.6.1 Sequoia
-- Xcode 16.4
-- Swift 6.1.2
+#### Development environment
+- macOS 26.4 Tahoe
+- Xcode 26.4
+- Swift 6.3
 
 #### License
 - The MIT License
 
-Copyright © 2022-2025年 MyCometG3. All rights reserved.
+Copyright © 2022-2026年 MyCometG3. All rights reserved.
