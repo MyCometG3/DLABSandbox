@@ -22,6 +22,10 @@ An example SwiftUI application for verifying the DLAB Swift Package.
 - Set com.apple.security.cs.disable-library-validation to YES.
 - Ref: "Documentation/Bundle Resources/Entitlements/Hardened Runtime/Disable Library Validation Entitlement" from Apple Developer Documentation.
 
+##### 3) SDK verification
+
+- Verified with Blackmagic DeckLink SDK 15.3.
+
 #### Development environment
 - macOS 26.4 Tahoe
 - Xcode 26.4
