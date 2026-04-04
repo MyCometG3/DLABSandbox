@@ -1,10 +1,13 @@
 # DLABSandbox
 
-An example SwiftUI application using DLAB Swift Package.
+An example SwiftUI application for verifying the DLAB Swift Package.
 
-### For DLAB package functionality verification
+### DLABSandbox is the sample app for DLAB package functionality verification.
 
-DLABSandbox runs on macOS Sandbox environment with TWO exception entitlements
+### Developer Notice
+##### 1) AppEntitlements for Sandboxing
+
+- DLABSandbox runs in the macOS sandbox environment with two exception entitlements.
 
     <key>com.apple.security.temporary-exception.mach-lookup.global-name</key>
     <string>com.blackmagic-design.desktopvideo.DeckLinkHardwareXPCService</string>
@@ -13,6 +16,11 @@ DLABSandbox runs on macOS Sandbox environment with TWO exception entitlements
 
 - See: Blackmagic DeckLink SDK pdf Section 2.2.
 - Ref: "Entitlement Key Reference/App Sandbox Temporary Exception Entitlements" from Apple Developer Documentation Archive
+
+##### 2) AppEntitlements for Hardened Runtime
+
+- Set com.apple.security.cs.disable-library-validation to YES.
+- Ref: "Documentation/Bundle Resources/Entitlements/Hardened Runtime/Disable Library Validation Entitlement" from Apple Developer Documentation.
 
 #### Development environment
 - macOS 26.4 Tahoe
