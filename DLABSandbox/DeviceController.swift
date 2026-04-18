@@ -56,6 +56,11 @@ class DeviceController :ObservableObject {
     @Published var layoutSelectedIndex = 6
     @Published var layoutLabel :Layout = .undefined
     @Published var reverse34 : Bool = true
+
+    var requiresTerminationCleanup: Bool {
+        guard let manager else { return false }
+        return manager.running || manager.recording
+    }
     
     // Preset selection
     func selectPreset(newPreset :Int) {
@@ -180,14 +185,7 @@ class DeviceController :ObservableObject {
         
         if let manager = manager {
             if manager.running {
-                // stop capture session
-                if manager.recording {
-                    await manager.recordToggleAsync()
-                }
-                await manager.captureStopAsync()
-                
-                // shutdown capture manager
-                self.manager = nil
+                await shutdownCaptureSession()
             } else {
                 // start capture session
                 applyConfig()
@@ -196,6 +194,11 @@ class DeviceController :ObservableObject {
         }
         
         //
+        updateViewState()
+    }
+
+    func prepareForTermination() async {
+        await shutdownCaptureSession()
         updateViewState()
     }
     
@@ -215,5 +218,21 @@ class DeviceController :ObservableObject {
         
         //
         updateViewState()
+    }
+
+    private func shutdownCaptureSession() async {
+        guard let manager else {
+            updateViewState()
+            return
+        }
+
+        if manager.recording {
+            await manager.recordToggleAsync()
+        }
+        if manager.running {
+            await manager.captureStopAsync()
+        }
+
+        self.manager = nil
     }
 }
