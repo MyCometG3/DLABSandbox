@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -134,7 +134,7 @@
 			);
 			mainGroup = 16E81AE628F3EF140085F0E3;
 			packageReferences = (
-				16E81B0128F3F0D60085F0E3 /* XCRemoteSwiftPackageReference "DLAB" */,
+				16EA566B2F9501B800F77E04 /* XCLocalSwiftPackageReference "../DLAB" */,
 			);
 			productRefGroup = 16E81AF028F3EF140085F0E3 /* Products */;
 			projectDirPath = "";
@@ -390,26 +390,22 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		16E81B0128F3F0D60085F0E3 /* XCRemoteSwiftPackageReference "DLAB" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MyCometG3/DLAB.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		16EA566B2F9501B800F77E04 /* XCLocalSwiftPackageReference "../DLAB" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../DLAB;
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		16E81B0228F3F0D60085F0E3 /* DLABCapture */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 16E81B0128F3F0D60085F0E3 /* XCRemoteSwiftPackageReference "DLAB" */;
+			package = 16EA566B2F9501B800F77E04 /* XCLocalSwiftPackageReference "../DLAB" */;
 			productName = DLABCapture;
 		};
 		16E81B0428F3F0D70085F0E3 /* DLABCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 16E81B0128F3F0D60085F0E3 /* XCRemoteSwiftPackageReference "DLAB" */;
+			package = 16EA566B2F9501B800F77E04 /* XCLocalSwiftPackageReference "../DLAB" */;
 			productName = DLABCore;
 		};
 /* End XCSwiftPackageProductDependency section */
