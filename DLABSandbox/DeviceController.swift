@@ -10,7 +10,6 @@ import Cocoa
 import DLABCore
 import DLABCapture
 import Dispatch
-import OSLog
 
 let undefinedLabel :String = "Undefined"
 
@@ -35,11 +34,6 @@ enum Layout :String {
 
 @MainActor
 class DeviceController :ObservableObject {
-    private let logger = Logger(
-        subsystem: Bundle.main.bundleIdentifier ?? "com.mycometg3.DLABSandbox",
-        category: "CaptureWriter"
-    )
-    
     // Clean Aperture offset
     let applySDOffset :Bool = true
     let sdOffset :NSPoint = NSPoint(x: 4, y: 0)
