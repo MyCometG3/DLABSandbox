@@ -395,8 +395,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MyCometG3/DLAB.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = revision;
+				revision = 1e49b2c463179283c4980af90419f7ef9326a711;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
