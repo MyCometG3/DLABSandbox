@@ -26,6 +26,7 @@ struct DLABSandboxApp: App {
     }
 }
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     weak var controller: DeviceController?
     private var terminationInProgress = false

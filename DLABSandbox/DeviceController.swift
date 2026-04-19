@@ -35,7 +35,10 @@ enum Layout :String {
 
 @MainActor
 class DeviceController :ObservableObject {
-    private let logger = Logger(subsystem: "com.MyCometG3.DLABSandbox", category: "CaptureWriter")
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "com.mycometg3.DLABSandbox",
+        category: "CaptureWriter"
+    )
     
     // Clean Aperture offset
     let applySDOffset :Bool = true
@@ -167,15 +170,6 @@ class DeviceController :ObservableObject {
             manager.audioChannels        = config.audioChannels
             manager.hdmiAudioChannels    = config.hdmiAudioChannels
             manager.reverseCh3Ch4        = config.reverse34
-            manager.captureWriterDiagnosticHandler = { [logger] diagnostic in
-                switch diagnostic {
-                case .deinitWhileRecording:
-                    logger.warning("CaptureWriter released while recording was still active; running fallback cleanup")
-                case .finishWritingTimedOut(let timeoutSeconds):
-                    logger.error("CaptureWriter fallback cleanup timed out after \(timeoutSeconds, format: .fixed(precision: 2)) seconds")
-                }
-            }
-            
             #if true
             manager.videoPreview = vPreview // CaptureVideoPreview based
             #else
