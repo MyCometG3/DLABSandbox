@@ -171,7 +171,7 @@ class DeviceController :ObservableObject {
                 switch diagnostic {
                 case .deinitWhileRecording:
                     logger.warning("CaptureWriter released while recording was still active; running fallback cleanup")
-                case .deinitFinishWritingTimedOut(let timeoutSeconds):
+                case .finishWritingTimedOut(let timeoutSeconds):
                     logger.error("CaptureWriter fallback cleanup timed out after \(timeoutSeconds, format: .fixed(precision: 2)) seconds")
                 }
             }
