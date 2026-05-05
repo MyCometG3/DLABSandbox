@@ -205,6 +205,7 @@ class DeviceController :ObservableObject {
         guard checkDevice() else { return }
         
         if let manager = manager, running == true {
+            manager.trimsRecordedMovieTimeRangeAfterRecording = true
             if manager.recording {
                 // stop recording
                 await manager.recordToggleAsync()
