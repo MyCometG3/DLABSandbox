@@ -24,12 +24,12 @@ An example SwiftUI application for verifying the DLAB Swift Package.
 
 ##### 3) SDK verification
 
-- Verified with Blackmagic DeckLink SDK 15.3.
+- Verified with Blackmagic DeckLink SDK **16.0**.
 
 #### Development environment
-- macOS 26.4 Tahoe
-- Xcode 26.4
-- Swift 6.3
+- macOS 26.4.1 Tahoe
+- Xcode 26.4.1
+- Swift 6.3.1
 
 #### License
 - The MIT License
