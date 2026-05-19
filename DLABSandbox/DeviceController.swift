@@ -55,6 +55,8 @@ class DeviceController :ObservableObject {
     @Published var layoutSelectedIndex = 6
     @Published var layoutLabel :Layout = .undefined
     @Published var reverse34 : Bool = true
+    private var isRunningTransition = false
+    private var isRecordingTransition = false
 
     var requiresTerminationCleanup: Bool {
         guard let manager else { return false }
@@ -90,24 +92,22 @@ class DeviceController :ObservableObject {
     
     // Lazy View state adjustment using Binding
     func updateViewState() {
-        Task { @MainActor in
-            if let manager = self.manager {
-                self.running = manager.running
-                self.recording = manager.recording
-                if let device = manager.currentDevice {
-                    self.displayName = device.displayName
-                } else {
-                    self.displayName = undefinedLabel
-                }
+        if let manager = self.manager {
+            self.running = manager.running
+            self.recording = manager.recording
+            if let device = manager.currentDevice {
+                self.displayName = device.displayName
             } else {
-                self.running = false
-                self.recording = false
                 self.displayName = undefinedLabel
             }
-            
-            self.selectPreset(newPreset: self.modeSelectedIndex)
-            self.selectLayout(newLayout: self.layoutSelectedIndex)
+        } else {
+            self.running = false
+            self.recording = false
+            self.displayName = undefinedLabel
         }
+
+        self.selectPreset(newPreset: self.modeSelectedIndex)
+        self.selectLayout(newLayout: self.layoutSelectedIndex)
     }
     
     // Preview registration
@@ -179,19 +179,21 @@ class DeviceController :ObservableObject {
     
     // Handle Capture session
     func toggleRunning() async {
+        guard !isRunningTransition else { return }
         guard checkDevice() else { return }
-        
-        if let manager = manager {
-            if manager.running {
-                await shutdownCaptureSession()
-            } else {
-                // start capture session
-                applyConfig()
-                await manager.captureStartAsync()
-            }
+        guard let manager = manager else { return }
+
+        isRunningTransition = true
+        defer { isRunningTransition = false }
+
+        if manager.running {
+            await shutdownCaptureSession()
+        } else {
+            // start capture session
+            applyConfig()
+            await manager.captureStartAsync()
         }
-        
-        //
+
         updateViewState()
     }
 
@@ -202,20 +204,22 @@ class DeviceController :ObservableObject {
     
     // Handle Recording
     func toggleRecording() async {
+        guard !isRecordingTransition else { return }
         guard checkDevice() else { return }
-        
-        if let manager = manager, running == true {
-            manager.trimsRecordedMovieTimeRangeAfterRecording = true
-            if manager.recording {
-                // stop recording
-                await manager.recordToggleAsync()
-            } else {
-                // start recording
-                await manager.recordToggleAsync()
-            }
+        guard let manager = manager, running == true else { return }
+
+        isRecordingTransition = true
+        defer { isRecordingTransition = false }
+
+        manager.trimsRecordedMovieTimeRangeAfterRecording = true
+        if manager.recording {
+            // stop recording
+            await manager.recordToggleAsync()
+        } else {
+            // start recording
+            await manager.recordToggleAsync()
         }
-        
-        //
+
         updateViewState()
     }
 
