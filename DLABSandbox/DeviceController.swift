@@ -124,10 +124,7 @@ class DeviceController :ObservableObject {
             manager = DLABCapture.CaptureManager()
         }
         if let manager = manager {
-            _ = manager.findFirstDevice()
-            if manager.currentDevice != nil {
-                return true
-            }
+            return manager.findFirstDevice() != nil
         }
         return false
     }
